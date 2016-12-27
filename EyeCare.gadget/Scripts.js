@@ -1,3 +1,5 @@
+// jQuery.support.cors = true;
+
 var CEILING = 15;
 var CEILING_SECS = CEILING * 60;
 var _playing = false;
@@ -25,7 +27,7 @@ $.fn.blink = function (options) {
 			else {
 				$(itm).css('visibility', 'visible');
 				if (options.blinks != Infinity)
-					if (--options.blinks <= 0) clearInterval(blinkLoop);
+					if (options.blinks-- <= 0) clearInterval(blinkLoop);
 			}
 		}, options.delay);
 	});
@@ -76,18 +78,18 @@ function loopTimer(loops) {
 }
 
 $(document).ready(function() {
-	$("#set-1").text("01");
+	$("#set-1").text("05");
 	$("#set-2").text("01");
 	$("#set-3").text("10");
 	// $("#clock").text($("#set-1").text() + ":00");
 	$("#clock").text("00:10");
-	// $("#clock").blink({blinks: 0});
+	$("#clock").blink({blinks: 10});
 
 	$("#play-pause").on("click", function() {
 		if (!_playing) {
 			_pause = false;
 			$(this).text("=");
-			loopTimer(loops);
+			runTimer();
 		} else {
 			_pause = true;
 			$(this).text(">");
