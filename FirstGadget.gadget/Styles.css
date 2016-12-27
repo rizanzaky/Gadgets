@@ -1,0 +1,11 @@
+body {
+	width: 130px;
+	height: 50px;
+	background-image: url("abstract-gadget-sm.jpg");
+}
+ 
+#clock {
+	font-family: monospace;
+	font-size: 18px;
+	width: 130px;
+}

@@ -1,0 +1,44 @@
+body {
+	width: 180px;
+	height: 50px;
+	background-image: url("abstract-gadget-sm.jpg");
+}
+* {
+    box-sizing: border-box;
+}
+table {
+	table-layout: fixed;
+	width: 100%;
+}
+tr td {
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: center;
+}
+.set-text td {
+	font-size: 9.5px;
+}
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+[class*="col-"] {
+    float: left;
+}
+.col-1 {width: 10%;}
+.col-2 {width: 20%;}
+.col-3 {width: 30%;}
+.col-4 {width: 40%;}
+.col-5 {width: 50%;}
+.col-6 {width: 60%;}
+.col-7 {width: 70%;}
+.col-8 {width: 80%;}
+.main {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.clock {
+	text-align: center;
+	font-size: 30px;
+}
