@@ -32,7 +32,7 @@ $.fn.blink = function (options) {
 	});
 }
 
-$.fn.blinky = function (options) {
+$.fn.blinkybill = function (options) {
 	var dfd = $.Deferred();
 
 	var defaults = { delay: 500, blinks: Infinity };
@@ -53,22 +53,39 @@ $.fn.blinky = function (options) {
 	});
 }
 
+function blinky(blinks) {
+	return $.Deferred(function() {
+		var self = this;
+		var y_ = setInterval(function () {
+			// var x_ = $("#head");
+			if ($("#clock").css("visibility") === "visible") {
+				$("#clock").css('visibility', 'hidden');
+			}
+			else {
+				$("#clock").css('visibility', 'visible');
+				if (--blinks <= 0) {
+					clearInterval(y_);
+					self.resolve();
+				}
+			}
+		}, 500);
+	});
+}
+
 function runTimer() {
 	_playing = true;
 	var nowTimeArr = $("#clock").text().split(":");
 	var nextTime = getNext(1*nowTimeArr[0], 1*nowTimeArr[1]);
-	if (nextTime == "00:00" || _pause) {
+	if (nextTime == "00:00" || _pause) { // natural end || pause (stop play)
 		_playing = false;
-		if (!_pause) {
-			_hitEnd = true;
-			$("#clock").text(nextTime);
-			$("#debug").append("<span> l:" + loops + "</span>");
-			if (loops > 1) {
-				looper();
-			} else {
-				$("#play-pause").text(">");
-				loops = $("#set-2").text();
-			}
+		if (!_pause) { // if not pause
+			// _hitEnd = true;
+			$("#clock").text(nextTime); // set 00:00
+			// $("#debug").append("<span> l:" + loops + "</span>");
+			looper();
+		} else { // if pause
+			$("#play-pause").text(">");
+			// loops = $("#set-2").text();
 		}
 		return;
 	}
@@ -77,26 +94,15 @@ function runTimer() {
 }
 
 function looper() {
-	loops--;
-	var deferred = $.Deferred();
-	deferred.resolve(function() {
-		$("#clock").blink({blinks: breakTime});
+	// loops--;
+	// breakTime = $("#set-3").text();
+	blinky(breakTime).done(function() {
+		if (--loops > 0) {
+			// $("#clock").text($("#set-1").text() + ":00");
+			$("#clock").text("00:05");
+			runTimer();
+		}
 	});
-	deferred.done(function() {
-		$("#clock").text("00:05");
-	});
-
-	// $("#clock").text($("#set-1").text() + ":00");
-	// $.when( $("#clock").blink({blinks: breakTime}) ).done(function() {
-	// 	$("#clock").text("00:05");
-	// 	// runTimer();
-	// });
-	// $("#clock").blink({blinks: breakTime}).then(function() {
-	// 	$("#clock").text("00:05");
-	// 	// runTimer();
-	// });
-	// $("#clock").text("00:10");
-	// runTimer();
 }
 
 function loopTimer(loops) {
@@ -127,9 +133,9 @@ function loopTimer(loops) {
 }
 
 $(document).ready(function() {
-	$("#set-1").text("01");
-	$("#set-2").text("02");
-	$("#set-3").text("05");
+	$("#set-1").text("01"); // time
+	$("#set-2").text("02"); // spins
+	$("#set-3").text("05"); // break
 	// $("#clock").text($("#set-1").text() + ":00");
 	$("#clock").text("00:05");
 	// $("#clock").blink({blinks: 10});
@@ -150,6 +156,8 @@ $(document).ready(function() {
 
 	$("#stop").on("click", function() {
 		_pause = true;
+		loops = $("#set-2").text();
+		breakTime = $("#set-3").text();
 		// $("#clock").text($("#set-1").text() + ":00");
 		$("#clock").text("00:05");
 		$("#play-pause").text(">");
