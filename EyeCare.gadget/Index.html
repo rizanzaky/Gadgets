@@ -15,19 +15,19 @@
 			<div class="setting-btns">
 				<table>
 					<tr>
-						<td><button id="value-up-1" set-id="set-1">A</button></td>
-						<td><button id="value-up-2" set-id="set-2">A</button></td>
-						<td><button id="value-up-3" set-id="set-3">A</button></td>
+						<td><a id="value-up-1" class="btn-up" set-id="set-1"><img src="./img/arrow-up.png" /></a></td>
+						<td><a id="value-up-2" class="btn-up" set-id="set-2"><img src="./img/arrow-up.png" /></a></td>
+						<td><a id="value-up-3" class="btn-up" set-id="set-3"><img src="./img/arrow-up.png" /></a></td>
 					</tr>
 					<tr class="set-vals">
 						<td><span id="set-1">01</span></td>
 						<td><span id="set-2">01</span></td>
-						<td><span id="set-3">01</span></td>
+						<td><span id="set-3">05</span></td>
 					</tr>
 					<tr>
-						<td><button id="value-down-1" set-id="set-1">V</button></td>
-						<td><button id="value-down-2" set-id="set-2">V</button></td>
-						<td><button id="value-down-3" set-id="set-3">V</button></td>
+						<td><a id="value-down-1" class="btn-down" set-id="set-1"><img src="./img/arrow-down.png" /></a></td>
+						<td><a id="value-down-2" class="btn-down" set-id="set-2"><img src="./img/arrow-down.png" /></a></td>
+						<td><a id="value-down-3" class="btn-down" set-id="set-3"><img src="./img/arrow-down.png" /></a></td>
 					</tr>
 					<tr class="set-text">
 						<td><span>Time (m)</span></td>
@@ -37,12 +37,12 @@
 				</table>
 			</div>
 			<div class="main row">
-				<div id="clock" class="clock col-5">
+				<div id="clock" class="clock col-6">
 					00:10
 				</div>
-				<div id="control" class="control col-5">
-					<button id="play-pause">></button>
-					<button id="stop">*</button>
+				<div id="control" class="control col-4">
+					<a class="btn-ctrl" id="play-pause"><img id="play-pause-img" src="./img/play.png" /></a>
+					<a class="btn-ctrl" id="stop"><img src="./img/stop.png" /></a>
 				</div>
 			</div>
 			<div id="debug"></div>

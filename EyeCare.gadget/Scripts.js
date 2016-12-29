@@ -6,7 +6,7 @@
 	* Free and Open Source application
 */
 
-var dev = false;
+var dev = true;
 
 // flag variables
 var _playing = false;
@@ -60,7 +60,7 @@ function runTimer() {
 			$("#clock").text(nextTime); // set 00:00
 			looper();
 		} else { // if pause
-			$("#play-pause").text(">");
+			$("#play-pause-img").attr("src", "./img/play.png");
 		}
 		return;
 	}
@@ -100,7 +100,7 @@ function stopReset() {
 	breakTime = $("#set-3").text();
 	if (dev) $("#clock").text("00:05");
 	else $("#clock").text($("#set-1").text() + ":00");
-	$("#play-pause").text(">");
+	$("#play-pause-img").attr("src", "./img/play.png");
 }
 
 function playSound() {
@@ -109,7 +109,7 @@ function playSound() {
 
 $(document).ready(function() {
 	$("#set-1").text("01"); // time
-	$("#set-2").text("02"); // spins
+	$("#set-2").text("01"); // spins
 	$("#set-3").text("05"); // break
 	if (dev) $("#clock").text("00:05");
 	else $("#clock").text($("#set-1").text() + ":00");
@@ -119,11 +119,11 @@ $(document).ready(function() {
 	$("#play-pause").on("click", function() {
 		if (!_playing) { // play
 			_pause = false; _stop = false;
-			$(this).text("=");
+			$("#play-pause-img").attr("src", "./img/pause.png");
 			runTimer();
 		} else { // pause
 			_pause = true;
-			$(this).text(">");
+			$("#play-pause-img").attr("src", "./img/play.png");
 		}
 	})
 

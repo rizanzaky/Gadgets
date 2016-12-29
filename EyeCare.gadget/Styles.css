@@ -1,7 +1,26 @@
+@font-face {
+    font-family: open-sans;
+    src: url(open-sans.regular.ttf);
+}
+.control {
+	margin-top: 8px;
+	text-align: left;
+}
+.btn-ctrl {
+	width: 22px;
+    height: 17px;
+    border: 2px solid black;
+    display: inline-block;
+    text-align: center;
+}
 body {
-	width: 180px;
-	height: 250px;
-	background-image: url("abstract-gadget-sm.jpg");
+	margin: 0px;
+	width: 150px;
+	height: 140px;
+	background-image: url("background.jpg");
+	background-repeat: no-repeat;
+    background-size: 100% 100%;
+	font-family: "Tahoma", "open-sans", "sans-serif", "Verdana";
 }
 * {
     box-sizing: border-box;
@@ -11,8 +30,8 @@ table {
 	width: 100%;
 }
 tr td {
-	padding-left: 10px;
-	padding-right: 10px;
+	/*padding-left: 5px;
+	padding-right: 5px;*/
 	text-align: center;
 }
 .set-text td {
@@ -29,16 +48,25 @@ tr td {
 .col-1 {width: 10%;}
 .col-2 {width: 20%;}
 .col-3 {width: 30%;}
-.col-4 {width: 40%;}
+.col-4 {width: 42%;}
 .col-5 {width: 50%;}
-.col-6 {width: 60%;}
+.col-6 {width: 58%;}
 .col-7 {width: 70%;}
 .col-8 {width: 80%;}
 .main {
-	padding-left: 10px;
-	padding-right: 10px;
+	/*padding-left: 10px;
+	padding-right: 10px;*/
 }
 .clock {
 	text-align: center;
 	font-size: 30px;
+}
+.btn-up, .btn-down {
+	position: relative;
+}
+.btn-up:active {
+	top: 1.5px;
+}
+.btn-down:active {
+	bottom: 1.5px;
 }
