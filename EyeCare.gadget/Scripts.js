@@ -15,44 +15,6 @@ function getNext(mins, secs) {
 	return ((mins < 10) ? ("0"+mins) : mins) + ":" + ((secs < 11) ? "0"+(secs-1) : (secs-1));
 }
 
-$.fn.blink = function (options) {
-	var defaults = { delay: 500, blinks: Infinity };
-	var options = $.extend(defaults, options);
-	return $(this).each(function (idx, itm) {
-		var blinkLoop = setInterval(function () {
-			if ($(itm).css("visibility") === "visible") {
-				$(itm).css('visibility', 'hidden');
-			}
-			else {
-				$(itm).css('visibility', 'visible');
-				if (options.blinks != Infinity)
-					if (options.blinks-- <= 0) clearInterval(blinkLoop);
-			}
-		}, options.delay);
-	});
-}
-
-$.fn.blinkybill = function (options) {
-	var dfd = $.Deferred();
-
-	var defaults = { delay: 500, blinks: Infinity };
-	var options = $.extend(defaults, options);
-	return $(this).each(function (idx, itm) {
-		var blinkLoop = setInterval(function() {
-			dfd.resolve(function () {
-				if ($(itm).css("visibility") === "visible") {
-					$(itm).css('visibility', 'hidden');
-				}
-				else {
-					$(itm).css('visibility', 'visible');
-					if (options.blinks != Infinity)
-						if (options.blinks-- <= 0) clearInterval(blinkLoop);
-				}
-			});
-		}, options.delay);
-	});
-}
-
 function blinky(blinks) {
 	return $.Deferred(function() {
 		var self = this;
@@ -96,40 +58,15 @@ function runTimer() {
 function looper() {
 	// loops--;
 	// breakTime = $("#set-3").text();
-	blinky(breakTime).done(function() {
+	// $("#clock").blinks()
+	blinky(breakTime)
+	.done(function() {
 		if (--loops > 0) {
 			// $("#clock").text($("#set-1").text() + ":00");
 			$("#clock").text("00:05");
 			runTimer();
 		}
 	});
-}
-
-function loopTimer(loops) {
-	breakTime = $("#set-3").text();
-	console.log(loops); console.log(breakTime);
-	this.runTimer().complete(function() {
-		if (_hitEnd)
-			$("#clock").blink({blinks: breakTime});
-	});
-	// for (var i = loops; i > 1; i--) {
-	// 	if (_hitEnd)
-	// 		$("#clock").blink({blinks: 0});
-			// runTimer();
-			// .complete(function() {
-			// for (var j = breakTime; j > 0; j--) {
-			// 	$("#clock").css('visibility', 'hidden');
-			// 	$("#clock").css('visibility', 'visible');
-			// 	// setTimeout(function() {
-			// 	// 	$("#clock").css('visibility', 'hidden');
-			// 	// 	setTimeout($("#clock").css('visibility', 'visible'), 500);
-			// 	// }, 500);
-			// 	// $("#clock").css('visibility', 'visible');
-			// 	console.log("done " + j)
-			// }
-			// $("#clock").text($("#set-1").text() + ":00");
-		// });
-	// }
 }
 
 $(document).ready(function() {
