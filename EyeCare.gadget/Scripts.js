@@ -1,10 +1,18 @@
-// jQuery.support.cors = true;
+/* EYE CARE - Windows Desktop Gadget 
+	* Version: 1.0.0
+	* Owner: Rizan Zaky
+	* Contributors: Rizan Zaky
+	* Description: Windows gadget to help with 20-20-20 rule
+	* Free and Open Source application
+*/
 
-var CEILING = 15;
-var CEILING_SECS = CEILING * 60;
+var dev = false;
+
+// flag variables
 var _playing = false;
 var _pause = false;
-var _hitEnd = false;
+var _stop = false;
+
 var loops = 0; breakTime = 0;
 
 function getNext(mins, secs) {
@@ -15,19 +23,27 @@ function getNext(mins, secs) {
 	return ((mins < 10) ? ("0"+mins) : mins) + ":" + ((secs < 11) ? "0"+(secs-1) : (secs-1));
 }
 
-function blinky(blinks) {
+function blink(blinks) {
 	return $.Deferred(function() {
 		var self = this;
-		var y_ = setInterval(function () {
-			// var x_ = $("#head");
+		var blinker = setInterval(function () {
+			if (_stop) {
+				loops = 0;
+				$("#clock").css('visibility', 'visible');
+				clearInterval(blinker);
+				self.resolve();
+				return;
+			}
+
 			if ($("#clock").css("visibility") === "visible") {
 				$("#clock").css('visibility', 'hidden');
 			}
 			else {
 				$("#clock").css('visibility', 'visible');
 				if (--blinks <= 0) {
-					clearInterval(y_);
+					clearInterval(blinker);
 					self.resolve();
+					return;
 				}
 			}
 		}, 500);
@@ -41,13 +57,10 @@ function runTimer() {
 	if (nextTime == "00:00" || _pause) { // natural end || pause (stop play)
 		_playing = false;
 		if (!_pause) { // if not pause
-			// _hitEnd = true;
 			$("#clock").text(nextTime); // set 00:00
-			// $("#debug").append("<span> l:" + loops + "</span>");
 			looper();
 		} else { // if pause
 			$("#play-pause").text(">");
-			// loops = $("#set-2").text();
 		}
 		return;
 	}
@@ -56,67 +69,95 @@ function runTimer() {
 }
 
 function looper() {
-	// loops--;
-	// breakTime = $("#set-3").text();
-	// $("#clock").blinks()
-	blinky(breakTime)
-	.done(function() {
-		if (--loops > 0) {
-			// $("#clock").text($("#set-1").text() + ":00");
-			$("#clock").text("00:05");
+	blink(breakTime).done(function() {
+		if (--loops > 0) { // if looping
+			if (dev) $("#clock").text("00:05");
+			else $("#clock").text($("#set-1").text() + ":00");
 			runTimer();
+		} else { // if loop end
+			stopReset();
 		}
 	});
+	playSound();
+}
+function increment(element, step) {
+	var id = '#' + element.attr("set-id");
+	var incValue = step + 1 * $(id).text();
+	var newValue = incValue < 10 ? "0"+incValue : incValue;
+	$(id).text(newValue);
+}
+function decrement(element, step) {
+	var id = '#' + element.attr("set-id");
+	var decValue = $(id).text() - step;
+	var newValue = decValue < 10 ? "0"+decValue : decValue;
+	if (decValue < 1) return;
+	$(id).text(newValue);
+}
+
+function stopReset() {
+	_pause = true; _stop = true; // pause true makes _playing false
+	loops = $("#set-2").text();
+	breakTime = $("#set-3").text();
+	if (dev) $("#clock").text("00:05");
+	else $("#clock").text($("#set-1").text() + ":00");
+	$("#play-pause").text(">");
+}
+
+function playSound() {
+	System.Sound.playSound("teatime.wav");
 }
 
 $(document).ready(function() {
 	$("#set-1").text("01"); // time
 	$("#set-2").text("02"); // spins
 	$("#set-3").text("05"); // break
-	// $("#clock").text($("#set-1").text() + ":00");
-	$("#clock").text("00:05");
-	// $("#clock").blink({blinks: 10});
+	if (dev) $("#clock").text("00:05");
+	else $("#clock").text($("#set-1").text() + ":00");
 	loops = $("#set-2").text();
 	breakTime = $("#set-3").text();
-	// $("#debug").append("<span> lp:" + loops + "</span>");
 
 	$("#play-pause").on("click", function() {
-		if (!_playing) {
-			_pause = false;
+		if (!_playing) { // play
+			_pause = false; _stop = false;
 			$(this).text("=");
 			runTimer();
-		} else {
+		} else { // pause
 			_pause = true;
 			$(this).text(">");
 		}
 	})
 
 	$("#stop").on("click", function() {
-		_pause = true;
-		loops = $("#set-2").text();
-		breakTime = $("#set-3").text();
-		// $("#clock").text($("#set-1").text() + ":00");
-		$("#clock").text("00:05");
-		$("#play-pause").text(">");
+		stopReset();
 	})
 
-	$(".value-up").on("click", function() {
-		var id = "#" + $(this).attr("set-id");
-		// var oldValue = parseInt($(id).text()) + 1;
-		var oldValue = 1 + 1 * $(id).text();
-		var newValue = oldValue < 10 ? "0"+oldValue : oldValue;
-		$(id).text(newValue);
+	$("#value-up-1").on("click", function() {
+		increment($(this), 1);
 		$("#clock").text($("#set-1").text() + ":00");
 	});
 
-	$(".value-down").on("click", function() {
-		var id = "#" + $(this).attr("set-id");
-		// var oldValue = parseInt($(id).text()) - 1;
-		var oldValue = $(id).text() - 1;
-		var newValue = oldValue < 10 ? "0"+oldValue : oldValue;
-		if (oldValue < 1)
-			newValue = "01";
-		$(id).text(newValue);
+	$("#value-up-2").on("click", function() {
+		increment($(this), 1);
+		loops = $("#set-2").text();
+	});
+
+	$("#value-up-3").on("click", function() {
+		increment($(this), 5);
+		breakTime = $("#set-3").text();
+	});
+
+	$("#value-down-1").on("click", function() {
+		decrement($(this), 1);
 		$("#clock").text($("#set-1").text() + ":00");
+	});
+
+	$("#value-down-2").on("click", function() {
+		decrement($(this), 1);
+		loops = $("#set-2").text();
+	});
+
+	$("#value-down-3").on("click", function() {
+		decrement($(this), 5);
+		breakTime = $("#set-3").text();
 	});
 });
