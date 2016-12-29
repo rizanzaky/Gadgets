@@ -18,8 +18,8 @@ body {
 	width: 150px;
 	height: 140px;
 	background-image: url("background.jpg");
-	background-repeat: no-repeat;
-    background-size: 100% 100%;
+	/*background-repeat: no-repeat;*/
+    /*background-size: 150px 140px;*/
 	font-family: "Tahoma", "open-sans", "sans-serif", "Verdana";
 }
 * {

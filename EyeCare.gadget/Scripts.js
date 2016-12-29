@@ -12,6 +12,7 @@ var dev = true;
 var _playing = false;
 var _pause = false;
 var _stop = false;
+var _blinking = false;
 
 var loops = 0; breakTime = 0;
 
@@ -69,7 +70,9 @@ function runTimer() {
 }
 
 function looper() {
+	_blinking = true;
 	blink(breakTime).done(function() {
+		_blinking = false;
 		if (--loops > 0) { // if looping
 			if (dev) $("#clock").text("00:05");
 			else $("#clock").text($("#set-1").text() + ":00");
@@ -117,6 +120,7 @@ $(document).ready(function() {
 	breakTime = $("#set-3").text();
 
 	$("#play-pause").on("click", function() {
+		if (_blinking) return;
 		if (!_playing) { // play
 			_pause = false; _stop = false;
 			$("#play-pause-img").attr("src", "./img/pause.png");
