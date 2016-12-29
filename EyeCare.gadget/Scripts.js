@@ -6,7 +6,7 @@
 	* Free and Open Source application
 */
 
-var dev = true;
+var dev = false;
 
 // flag variables
 var _playing = false;
