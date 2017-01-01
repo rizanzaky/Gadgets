@@ -13,6 +13,7 @@ var _playing = false;
 var _pause = false;
 var _stop = false;
 var _blinking = false;
+var _minimized = false;
 
 var loops = 0; breakTime = 0;
 
@@ -164,4 +165,20 @@ $(document).ready(function() {
 		decrement($(this), 5);
 		breakTime = $("#set-3").text();
 	});
+
+	$("#window-btn").on("click", function() {
+		if (_minimized) {
+			_minimized = false;
+			$("body").css("height", "140px");
+			$(".window-size").css("height", "5px");
+			$("#setting-btns").show();
+			$(this).find("img").attr("src", "./img/minimise.png");
+			return;
+		}
+		_minimized = true;
+		$("body").css("height", "50px");
+		$(".window-size").css("height", "10px");
+		$("#setting-btns").hide();
+		$(this).find("img").attr("src", "./img/maximise.png");
+	})
 });
