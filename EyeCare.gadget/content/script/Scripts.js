@@ -6,7 +6,7 @@
 	* Free and Open Source application
 */
 
-var dev = false;
+var dev = true;
 
 // flag variables
 var _playing = false;
@@ -62,7 +62,7 @@ function runTimer() {
 			$("#clock").text(nextTime); // set 00:00
 			looper();
 		} else { // if pause
-			$("#play-pause-img").attr("src", "./img/play.png");
+			$("#play-pause-img").attr("src", "./resources/img/play.png");
 		}
 		return;
 	}
@@ -104,11 +104,11 @@ function stopReset() {
 	breakTime = $("#set-3").text();
 	if (dev) $("#clock").text("00:05");
 	else $("#clock").text($("#set-1").text() + ":00");
-	$("#play-pause-img").attr("src", "./img/play.png");
+	$("#play-pause-img").attr("src", "./resources/img/play.png");
 }
 
 function playSound() {
-	System.Sound.playSound("teatime.wav");
+	System.Sound.playSound("./resources/media/teatime.wav");
 }
 
 $(document).ready(function() {
@@ -124,11 +124,11 @@ $(document).ready(function() {
 		if (_blinking) return;
 		if (!_playing) { // play
 			_pause = false; _stop = false;
-			$("#play-pause-img").attr("src", "./img/pause.png");
+			$("#play-pause-img").attr("src", "./resources/img/pause.png");
 			runTimer();
 		} else { // pause
 			_pause = true;
-			$("#play-pause-img").attr("src", "./img/play.png");
+			$("#play-pause-img").attr("src", "./resources/img/play.png");
 		}
 	})
 
@@ -172,13 +172,13 @@ $(document).ready(function() {
 			$("body").css("height", "140px");
 			$(".window-size").css("height", "5px");
 			$("#setting-btns").show();
-			$(this).find("img").attr("src", "./img/minimise.png");
+			$(this).find("img").attr("src", "./resources/img/minimise.png");
 			return;
 		}
 		_minimized = true;
 		$("body").css("height", "50px");
 		$(".window-size").css("height", "10px");
 		$("#setting-btns").hide();
-		$(this).find("img").attr("src", "./img/maximise.png");
+		$(this).find("img").attr("src", "./resources/img/maximise.png");
 	})
 });
